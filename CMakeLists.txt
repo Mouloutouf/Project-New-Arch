@@ -12,6 +12,18 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp)
+add_executable(main src/main.cpp
+        src/Alpha.h
+        src/Enums.h
+        src/Grid.h
+        src/Grid.cpp
+        src/Biome.h
+        src/Biome.cpp
+        src/Biomes.h
+        src/Biomes.cpp
+        src/Tile.h
+        src/Tile.cpp
+        src/TileObject.h
+        src/TileObject.cpp)
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)
