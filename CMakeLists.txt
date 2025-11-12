@@ -24,6 +24,25 @@ add_executable(main src/main.cpp
         src/Tile.h
         src/Tile.cpp
         src/TileObject.h
-        src/TileObject.cpp)
+        src/TileObject.cpp
+        src/AI/AgentState.h
+        src/AI/Agent.cpp
+        src/AI/Agent.h
+        src/AI/Miner.cpp
+        src/AI/Miner.h
+        src/AI/StateMachine.h
+        src/Messaging/MessageDispatcher.cpp
+        src/Messaging/MessageDispatcher.h
+        src/Messaging/Telegram.h
+        src/AI/Locations.h
+        src/AI/MinerStates.cpp
+        src/AI/MinerStates.h
+        src/AI/AgentManager.cpp
+        src/AI/AgentManager.h
+        src/Messaging/Messages.h
+        src/AI/AgentNames.h)
+
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)
+
+target_include_directories(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
