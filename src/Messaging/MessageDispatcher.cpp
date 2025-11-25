@@ -77,7 +77,7 @@ void MessageDispatcher::DispatchDelayedMessages()
         Agent* pReceiver = AgentManager::Instance()->GetAgentByName(telegram.receiver);
 
         std::cout << "\n" << "Queued telegram ready for dispatch: Sent to "
-            << telegram.receiver << ". Message is " << telegram.message << "";
+            << telegram.receiver << ". Message is " << telegram.messageType << "";
 
         //send the telegram to the recipient
         Discharge(pReceiver, telegram);

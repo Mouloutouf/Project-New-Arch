@@ -3,13 +3,11 @@
 //
 
 #include "AgentManager.h"
-
 #include "Agent.h"
 
 AgentManager* AgentManager::Instance()
 {
     static AgentManager instance;
-
     return &instance;
 }
 
@@ -23,7 +21,7 @@ Agent* AgentManager::GetAgentByName(const std::string& name) const
     auto agentIt = m_Agents.find(name);
 
     if (agentIt == m_Agents.end())
-        return nullptr; // And an error message
+        return nullptr; // TODO Add an error message
 
     return agentIt->second;
 }

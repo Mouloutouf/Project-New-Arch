@@ -19,7 +19,7 @@ struct Telegram
 
     //the message itself. These are all enumerated in the file
     //"MessageTypes.h"
-    int message;
+    int messageType;
 
     //messages can be dispatched immediately or delayed for a specified amount
     //of time. If a delay is necessary this field is stamped with the time
@@ -31,13 +31,13 @@ struct Telegram
 
 
     Telegram()
-        : sender(nullptr), receiver(nullptr), message(-1), dispatchTime(-1), pExtraInfo(nullptr)
+        : sender(nullptr), receiver(nullptr), messageType(-1), dispatchTime(-1), pExtraInfo(nullptr)
     {
     }
 
 
     Telegram(const double time, const std::string& sender, const std::string& receiver, const int message, void* pExtraInfo = nullptr)
-        : sender(sender), receiver(receiver), message(message), dispatchTime(time), pExtraInfo(pExtraInfo)
+        : sender(sender), receiver(receiver), messageType(message), dispatchTime(time), pExtraInfo(pExtraInfo)
     {
     }
 };
@@ -49,7 +49,7 @@ inline bool operator==(const Telegram& t1, const Telegram& t2)
     return fabs(t1.dispatchTime - t2.dispatchTime) < SMALLEST_DELAY &&
         t1.sender == t2.sender &&
         t1.receiver == t2.receiver &&
-        t1.message == t2.message;
+        t1.messageType == t2.messageType;
 }
 
 inline bool operator<(const Telegram& t1, const Telegram& t2)
@@ -62,7 +62,7 @@ inline bool operator<(const Telegram& t1, const Telegram& t2)
 
 inline std::ostream& operator<<(std::ostream& os, const Telegram& t)
 {
-    os << "Time: " << t.dispatchTime << ", Sender: " << t.sender << ", Receiver: " << t.receiver << ", Message: " << t.message;
+    os << "Time: " << t.dispatchTime << ", Sender: " << t.sender << ", Receiver: " << t.receiver << ", Message: " << t.messageType;
     return os;
 }
 

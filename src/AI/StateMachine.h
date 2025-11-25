@@ -9,28 +9,20 @@
 
 #include "AgentState.h"
 
-template <class EntityType>
+template <class AgentType>
 class StateMachine
 {
-    EntityType* m_pOwner;
-
-    AgentState<EntityType>* m_pCurrentState;
-
-    AgentState<EntityType>* m_pPreviousState;
-
-    AgentState<EntityType>* m_pGlobalState;
-
 public :
-    StateMachine(EntityType* pOwner)
+    StateMachine(AgentType* pOwner)
         : m_pOwner(pOwner), m_pCurrentState(nullptr), m_pPreviousState(nullptr), m_pGlobalState(nullptr)
     {
     }
 
     virtual ~StateMachine() = default;
 
-    void SetCurrentState(AgentState<EntityType>* pState) { m_pCurrentState = pState; }
-    void SetGlobalState(AgentState<EntityType>* pState) { m_pGlobalState = pState; }
-    void SetPreviousState(AgentState<EntityType>* pState) { m_pPreviousState = pState; }
+    void SetCurrentState(AgentState<AgentType>* pState) { m_pCurrentState = pState; }
+    void SetGlobalState(AgentState<AgentType>* pState) { m_pGlobalState = pState; }
+    void SetPreviousState(AgentState<AgentType>* pState) { m_pPreviousState = pState; }
 
     void Update()
     {
@@ -52,7 +44,7 @@ public :
         return false;
     }
 
-    void ChangeState(AgentState<EntityType>* pNewState)
+    void ChangeState(AgentState<AgentType>* pNewState)
     {
         if (pNewState == nullptr)
             return; // Add an error message
@@ -71,14 +63,23 @@ public :
         ChangeState(m_pPreviousState);
     }
 
-    bool IsInState(const AgentState<EntityType>& pState) const
+    bool IsInState(const AgentState<AgentType>& pState) const
     {
         return typeid(*m_pCurrentState) == typeid(pState);
     }
 
-    AgentState<EntityType>* CurrentState() const { return m_pCurrentState; }
-    AgentState<EntityType>* GlobalState() const { return m_pGlobalState; }
-    AgentState<EntityType>* PreviousState() const { return m_pPreviousState; }
+    AgentState<AgentType>* CurrentState() const { return m_pCurrentState; }
+    AgentState<AgentType>* GlobalState() const { return m_pGlobalState; }
+    AgentState<AgentType>* PreviousState() const { return m_pPreviousState; }
+
+private:
+    AgentType* m_pOwner;
+
+    AgentState<AgentType>* m_pCurrentState;
+
+    AgentState<AgentType>* m_pPreviousState;
+
+    AgentState<AgentType>* m_pGlobalState;
 };
 
 #endif //NEWARCH_STATEMACHINE_H

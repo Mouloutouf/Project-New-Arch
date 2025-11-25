@@ -40,7 +40,11 @@ add_executable(main src/main.cpp
         src/AI/AgentManager.cpp
         src/AI/AgentManager.h
         src/Messaging/Messages.h
-        src/AI/AgentNames.h)
+        src/AI/AgentNames.h
+        src/AI/Wife.cpp
+        src/AI/Wife.h
+        src/AI/WifeStates.cpp
+        src/AI/WifeStates.h
 
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)

@@ -7,7 +7,11 @@
 
 #include <string>
 
-#include "../Messaging/Telegram.h"
+struct Telegram;
+
+// TODO / Define if we want states to be singleton or if each state should be an instance which requires specific data
+// TODO / Define a new diagram of state transitions for your two characters, with new states, to practice setting up the state machine
+// TODO / Define if we want to have a hierarchical state machine for our agents, with generic states with more detailed states inside
 
 class Agent
 {

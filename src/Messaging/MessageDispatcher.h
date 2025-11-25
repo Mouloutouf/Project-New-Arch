@@ -15,9 +15,11 @@ class Agent;
 class MessageDispatcher
 {
 public:
+    // deleted copy constructor and assignment operator
     MessageDispatcher(const MessageDispatcher&) = delete;
     MessageDispatcher& operator=(const MessageDispatcher&) = delete;
 
+    // static instance of this class
     static MessageDispatcher* Instance();
 
     void DispatchMessage(double delay, std::string sender, std::string receiver, int message, void* pExtraInfo);
@@ -25,6 +27,7 @@ public:
     void DispatchDelayedMessages();
 
 private:
+    // private constructor
     MessageDispatcher()
     {
     }

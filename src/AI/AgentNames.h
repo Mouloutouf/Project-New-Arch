@@ -7,7 +7,7 @@
 
 #include <string>
 
-const std::string AGENT_MINER = "Miner Alfred";
+const std::string AGENT_MINER = "Alfred";
 const std::string AGENT_WIFE = "Elsa";
 
 #endif //NEWARCH_AGENTNAMES_H

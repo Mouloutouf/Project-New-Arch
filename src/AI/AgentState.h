@@ -7,19 +7,19 @@
 
 struct Telegram;
 
-template<class EntityType>
+template<class AgentType>
 class AgentState
 {
 public:
     virtual ~AgentState() = default;
 
-    virtual void Enter(EntityType*) = 0;
+    virtual void Enter(AgentType*) = 0;
 
-    virtual void Execute(EntityType*) = 0;
+    virtual void Execute(AgentType*) = 0;
 
-    virtual void Exit(EntityType*) = 0;
+    virtual void Exit(AgentType*) = 0;
 
-    virtual bool OnNotification(EntityType*, const Telegram&) = 0;
+    virtual bool OnNotification(AgentType*, const Telegram&) = 0;
 };
 
 #endif //NEWARCH_STATE_H

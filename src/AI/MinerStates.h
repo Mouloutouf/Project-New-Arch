@@ -9,18 +9,20 @@
 
 class Miner;
 
+//------------------------------------------------------------------------
+//
+
+//------------------------------------------------------------------------
+
+// Singleton class
 class EnterCaveAndMineBlocks : public AgentState<Miner>
 {
-    EnterCaveAndMineBlocks()
-    {
-    }
-
 public:
-    //copy ctor and assignment should be deleted
+    // deleted copy constructor and assignment operator
     EnterCaveAndMineBlocks(const EnterCaveAndMineBlocks&) = delete;
     EnterCaveAndMineBlocks& operator=(const EnterCaveAndMineBlocks&) = delete;
 
-    //this is a singleton
+    // static instance of this class
     static EnterCaveAndMineBlocks* Instance();
 
     void Enter(Miner* miner) override;
@@ -30,20 +32,23 @@ public:
     void Exit(Miner* miner) override;
 
     bool OnNotification(Miner* agent, const Telegram& message) override;
-};
 
-class GoToStorageAndDepositBlocks : public AgentState<Miner>
-{
-    GoToStorageAndDepositBlocks()
+private:
+    // private constructor
+    EnterCaveAndMineBlocks()
     {
     }
+};
 
+// Singleton class
+class GoToStorageAndDepositBlocks : public AgentState<Miner>
+{
 public:
-    //copy ctor and assignment should be deleted
+    // deleted copy constructor and assignment operator
     GoToStorageAndDepositBlocks(const GoToStorageAndDepositBlocks&) = delete;
     GoToStorageAndDepositBlocks& operator=(const GoToStorageAndDepositBlocks&) = delete;
 
-    //this is a singleton
+    // static instance of this class
     static GoToStorageAndDepositBlocks* Instance();
 
     void Enter(Miner* miner) override;
@@ -53,20 +58,27 @@ public:
     void Exit(Miner* miner) override;
 
     bool OnNotification(Miner* agent, const Telegram& message) override;
-};
 
-class GoBackToBaseAndSleep : public AgentState<Miner>
-{
-    GoBackToBaseAndSleep()
+private:
+    // private constructor
+    GoToStorageAndDepositBlocks()
     {
     }
+};
+//------------------------------------------------------------------------
+//
 
+//------------------------------------------------------------------------
+
+// Singleton class
+class GoBackToBaseAndSleep : public AgentState<Miner>
+{
 public:
-    //copy ctor and assignment should be deleted
+    // deleted copy constructor and assignment operator
     GoBackToBaseAndSleep(const GoBackToBaseAndSleep&) = delete;
     GoBackToBaseAndSleep& operator=(const GoBackToBaseAndSleep&) = delete;
 
-    //this is a singleton
+    // static instance of this class
     static GoBackToBaseAndSleep* Instance();
 
     void Enter(Miner* miner) override;
@@ -76,20 +88,27 @@ public:
     void Exit(Miner* miner) override;
 
     bool OnNotification(Miner* agent, const Telegram& message) override;
-};
 
-class GoToVillageAndDrinkWater : public AgentState<Miner>
-{
-    GoToVillageAndDrinkWater()
+private:
+    // private constructor
+    GoBackToBaseAndSleep()
     {
     }
+};
+//------------------------------------------------------------------------
+//
 
+//------------------------------------------------------------------------
+
+// Singleton class
+class GoToVillageAndDrinkWater : public AgentState<Miner>
+{
 public:
-    //copy ctor and assignment should be deleted
+    // deleted copy constructor and assignment operator
     GoToVillageAndDrinkWater(const GoToVillageAndDrinkWater&) = delete;
     GoToVillageAndDrinkWater& operator=(const GoToVillageAndDrinkWater&) = delete;
 
-    //this is a singleton
+    // static instance of this class
     static GoToVillageAndDrinkWater* Instance();
 
     void Enter(Miner* miner) override;
@@ -99,20 +118,27 @@ public:
     void Exit(Miner* miner) override;
 
     bool OnNotification(Miner* agent, const Telegram& message) override;
-};
 
-class GoBackToBaseAndEat : public AgentState<Miner>
-{
-    GoBackToBaseAndEat()
+private:
+    // private constructor
+    GoToVillageAndDrinkWater()
     {
     }
+};
+//------------------------------------------------------------------------
+//
 
+//------------------------------------------------------------------------
+
+// Singleton class
+class GoBackToBaseAndEat : public AgentState<Miner>
+{
 public:
-    //copy ctor and assignment should be deleted
+    // deleted copy constructor and assignment operator
     GoBackToBaseAndEat(const GoBackToBaseAndEat&) = delete;
     GoBackToBaseAndEat& operator=(const GoBackToBaseAndEat&) = delete;
 
-    //this is a singleton
+    // static instance of this class
     static GoBackToBaseAndEat* Instance();
 
     void Enter(Miner* miner) override;
@@ -122,6 +148,12 @@ public:
     void Exit(Miner* miner) override;
 
     bool OnNotification(Miner* agent, const Telegram& message) override;
+
+private:
+    // private constructor
+    GoBackToBaseAndEat()
+    {
+    }
 };
 
 #endif //NEWARCH_MINERSTATES_H
