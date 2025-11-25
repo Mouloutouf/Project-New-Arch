@@ -45,6 +45,14 @@ add_executable(main src/main.cpp
         src/AI/Wife.h
         src/AI/WifeStates.cpp
         src/AI/WifeStates.h
+        src/GameEngine.h
+        src/GameEngine.cpp
+        src/GameEntity.h
+        src/GameEntity.cpp
+        src/GameScene.h
+        src/GameScene.cpp
+        src/GameDisplay.cpp
+        src/GameDisplay.cpp)
 
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)

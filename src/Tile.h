@@ -3,40 +3,32 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include "Core.h"
-
-///\
-
 #include "Biomes.h"
-#include "Buildings.h"
 
-namespace alpha
+namespace game
 {
-	namespace game
+	class Tile
 	{
-		class Tile
-		{
-		public:
-			Tile();
-			Tile(Biome* _biome);
-			Tile(const Tile& that);
-			~Tile();
+	public:
+		Tile();
+		Tile(Biome* _biome);
+		Tile(const Tile& that);
+		~Tile();
 
-			BiomeType biomeType = BiomeType::None;
-			void setBiome(Biome* _biome) { if (biome != nullptr) delete biome; biome = _biome; }
-			Biome* getBiome() { return biome; }
+		BiomeType biomeType = BiomeType::None;
+		void setBiome(Biome* _biome) { if (biome != nullptr) delete biome; biome = _biome; }
+		Biome* getBiome() { return biome; }
 
-			void setBuilding(Building* _building) { if (building != nullptr) delete building; building = _building; }
-			Building* getBuilding() { return building; }
-			bool hasBuilding() { return building != nullptr; }
+		void setBuilding(Building* _building) { if (building != nullptr) delete building; building = _building; }
+		Building* getBuilding() { return building; }
+		bool hasBuilding() { return building != nullptr; }
 
-			int x, y;
+		int x, y;
 
-		private:
-			Biome* biome;
-			Building* building = nullptr;
-		};
-	}
+	private:
+		Biome* biome;
+		Building* building = nullptr;
+	};
 }
 
 #endif // !TILE_H

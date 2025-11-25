@@ -4,9 +4,6 @@
 #define BIOMES_H
 
 #include "Alpha.h"
-#include "Core.h"
-
-///\
 
 #include <map>
 #include <string>
@@ -14,71 +11,66 @@
 
 #include "Biome.h"
 
-namespace alpha
+namespace game
 {
-	using namespace core;
-
-	namespace game
+	class FieldBiome : public Biome
 	{
-		class FieldBiome : public Biome
-		{
-		public:
-			FieldBiome();
-			FieldBiome(int _cropResources, int _herbResources, Structure _shipStructure);
+	public:
+		FieldBiome();
+		FieldBiome(int _cropResources, int _herbResources, Structure _shipStructure);
 
-			void GenerateFieldBiome();
-		};
+		void GenerateFieldBiome();
+	};
 
-		class DesertBiome : public Biome
-		{
-		public:
-			DesertBiome();
-			DesertBiome(Structure _shipStructure);
+	class DesertBiome : public Biome
+	{
+	public:
+		DesertBiome();
+		DesertBiome(Structure _shipStructure);
 
-			void GenerateDesertBiome();
-		};
+		void GenerateDesertBiome();
+	};
 
-		class MountainBiome : public Biome
-		{
-		public:
-			MountainBiome();
-			MountainBiome(int _oxygenResources, Structure _shipStructure);
+	class MountainBiome : public Biome
+	{
+	public:
+		MountainBiome();
+		MountainBiome(int _oxygenResources, Structure _shipStructure);
 
-			void GenerateMountainBiome();
-		};
+		void GenerateMountainBiome();
+	};
 
-		class LakeBiome : public Biome
-		{
-		public:
-			LakeBiome();
-			LakeBiome(int _waterResources);
+	class LakeBiome : public Biome
+	{
+	public:
+		LakeBiome();
+		LakeBiome(int _waterResources);
 
-			void GenerateLakeBiome();
-		};
+		void GenerateLakeBiome();
+	};
 
-		class ForestBiome : public Biome
-		{
-		public:
-			ForestBiome();
-			ForestBiome(int _oxygenResources, int _meatResources, int _herbResources, Structure _shipStructure);
+	class ForestBiome : public Biome
+	{
+	public:
+		ForestBiome();
+		ForestBiome(int _oxygenResources, int _meatResources, int _herbResources, Structure _shipStructure);
 
-			void GenerateForestBiome();
-			void GenerateForestResources();
+		void GenerateForestBiome();
+		void GenerateForestResources();
 
-		private:
-			std::string forestType;
-			std::map<std::string, std::vector<std::string>> forestSprites;
-		};
+	private:
+		std::string forestType;
+		std::map<std::string, std::vector<std::string>> forestSprites;
+	};
 
-		class SeaBiome : public Biome
-		{
-		public:
-			SeaBiome();
-			SeaBiome(int _waterResources);
+	class SeaBiome : public Biome
+	{
+	public:
+		SeaBiome();
+		SeaBiome(int _waterResources);
 
-			void GenerateSeaBiome();
-		};
-	}
+		void GenerateSeaBiome();
+	};
 }
 
 #endif // !BIOMES_H
