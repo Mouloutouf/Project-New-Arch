@@ -9,8 +9,9 @@
 
 #include "SFML/Graphics/Color.hpp"
 
+#include "Utility.h"
 #include "GameEntity.h"
-#include "TileObject.h"
+#include "Tile.h"
 
 namespace game
 {
@@ -20,31 +21,21 @@ namespace game
 	{
 	public:
 
-		Grid();
-		Grid(int _width, int _height, bool _useRandomSeed = true, std::string _seed = std::to_string(_TIME));
-		Grid(const Grid& that, GameEntity* _gameObject);
-		~Grid();
-
-		Grid* Clone(GameEntity* _gameObject) override;
-
-		void Init() override;
+		Grid(int _width, int _height, bool _useRandomSeed = true, const std::string& _seed = std::to_string(CURRENT_TIME));
 
 		void Start() override;
 		void Update(float _elapsedTime) override;
 
 		int width = 2, height = 2;
-		int index(int _x, int _y) const { return _x + width * _y; }
+		int index(const int _x, const int _y) const { return _x + width * _y; }
 
-		TileObject* GetTile(int _x, int _y);
+		Tile* GetTile(int _x, int _y) const;
 
-		GameEntity* tilePrefab = nullptr;
-		std::vector<TileObject*> tiles;
+		std::vector<Tile*> tiles;
 
-		Color backgroundColor;
-		Camera* camera;
+		sf::Color backgroundColor;
 
 	private:
-
 		void GenerateMap();
 
 		void GenerateTerritory();
@@ -53,15 +44,16 @@ namespace game
 		void GenerateBiomes();
 		void CreateMap();
 
-		std::map<std::pair<int, int>, int> SmoothArea(std::map<std::pair<int, int>, int>& _area);
-		int GetSurroundingTiles(int _x, int _y, std::map<std::pair<int, int>, int>& _area);
+		std::map<std::pair<int, int>, int> SmoothArea(std::map<std::pair<int, int>, int>& _inputArea) const;
+
+		static int GetSurroundingTiles(int _x, int _y, std::map<std::pair<int, int>, int>& _area);
 
 		void SmoothBiomes();
 		void CheckBiome(int _x, int _y);
 
 		void CreateSeaAndLakeRegions();
 
-		void CreateTile(int _x, int _y, BiomeType _b);
+		void CreateTile(int _x, int _y, BiomeType _biomeType);
 
 		int randomTerritoryPercent;
 		std::map<std::pair<int, int>, int> territoryTiles;

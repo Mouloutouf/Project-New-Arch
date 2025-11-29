@@ -10,9 +10,14 @@ namespace game
 		None, Forest, Field, Desert, Mountain, Sea, Lake
 	};
 
-	enum class BuildingType
+	enum class TerrainType
 	{
-		Farm, HuntCamp, Cookery, Shed, Storage, DroneBay, Prefabs, Pharmacy, OxygenGatherer, OxygenExcavator, WaterExtractor, WaterPurifier, ExcavationGrounds
+		Normal, Hard
+	};
+
+	enum class ResourceType
+	{
+		Wood, Stone, Iron
 	};
 }
 

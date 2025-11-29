@@ -1,28 +1,34 @@
 #include "Tile.h"
 
+#include "SFML/Graphics/Texture.hpp"
+
 namespace game
 {
 	Tile::Tile()
-		: biome(nullptr)
 	{
 	}
-	Tile::Tile(Biome* _biome)
-		: biome(_biome)
+	Tile::Tile(const std::string& _spritePath, sf::Vector2i _position, BiomeType _biomeType)
+		: gridPosition(_position), biomeType(_biomeType)
 	{
-		biomeType = biome->biomeType;
-	}
-	Tile::Tile(const Tile& that)
-		: biomeType(that.biomeType)
-	{
-		if (that.biome != nullptr)
-			biome = new Biome(*that.biome);
+		CreateSprite(_spritePath);
 	}
 
-	Tile::~Tile()
+	void Tile::CreateSprite(const std::string& _spritePath)
 	{
-		if (biome != nullptr)
-			delete biome;
-		if (building != nullptr)
-			delete building;
+		if (_spritePath.empty() == false) {
+			auto texture = sf::Texture();
+			if (texture.loadFromFile(_spritePath))
+				sprite = std::make_unique<sf::Sprite>(texture);
+		}
+	}
+
+	void Tile::Start()
+	{
+	}
+	void Tile::Update(float _elapsedTime)
+	{
+	}
+	void Tile::EventUpdate(sf::Event& _event, float _elapsedTime)
+	{
 	}
 }

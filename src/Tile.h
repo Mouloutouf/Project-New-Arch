@@ -3,31 +3,38 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include "Biomes.h"
+#include <map>
+#include <memory>
+
+#include "SFML/Graphics/Sprite.hpp"
+
+#include "Enums.h"
+#include "GameEntity.h"
 
 namespace game
 {
-	class Tile
+	using namespace core;
+
+	class Tile : public GameEntity
 	{
 	public:
 		Tile();
-		Tile(Biome* _biome);
-		Tile(const Tile& that);
-		~Tile();
+		Tile(const std::string& _spritePath, sf::Vector2i _position, BiomeType _biomeType);
+
+		void CreateSprite(const std::string& _spritePath);
+
+		void Start() override;
+		void Update(float _elapsedTime) override;
+		void EventUpdate(sf::Event& _event, float _elapsedTime) override;
+
+		sf::Vector2i gridPosition;
 
 		BiomeType biomeType = BiomeType::None;
-		void setBiome(Biome* _biome) { if (biome != nullptr) delete biome; biome = _biome; }
-		Biome* getBiome() { return biome; }
+		TerrainType terrainType = TerrainType::Normal;
 
-		void setBuilding(Building* _building) { if (building != nullptr) delete building; building = _building; }
-		Building* getBuilding() { return building; }
-		bool hasBuilding() { return building != nullptr; }
+		std::map<ResourceType, int> resources;
 
-		int x, y;
-
-	private:
-		Biome* biome;
-		Building* building = nullptr;
+		std::unique_ptr<sf::Sprite> sprite;
 	};
 }
 

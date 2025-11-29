@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#ifndef GAME_DISPLAY_H
+#define GAME_DISPLAY_H
 
 #include <map>
 
@@ -90,4 +90,4 @@ namespace core
 	};
 }
 
-#endif // !DISPLAY_H
+#endif // !GAME_DISPLAY_H

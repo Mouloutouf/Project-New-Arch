@@ -1,6 +1,5 @@
 #include "GameEngine.h"
 
-using namespace alpha;
 using namespace core;
 
 int main()
@@ -9,24 +8,24 @@ int main()
 
     GameEngine gameEngine = GameEngine();
 
-    RenderWindow* gameWindow = gameEngine.GetGameWindow();
+    sf::RenderWindow* gameWindow = gameEngine.GetGameDisplay()->GetRenderWindow();
 
     gameWindow->setFramerateLimit(60);
 
-    Clock clock;
+    sf::Clock clock;
 
     gameEngine.Start();
 
     while (gameWindow->isOpen())
     {
-        Time elapsed = clock.restart();
+        sf::Time elapsed = clock.restart();
         float elapsedTime = elapsed.asSeconds();
 
         while (const std::optional event = gameWindow->pollEvent())
         {
-            if (event.type == Event::Closed)
+            if (event.type == sf::Event::Closed)
                 gameWindow->close();
-            if (event.type == Event::KeyPressed) {
+            if (event.type == sf::Event::KeyPressed) {
                 if (event.key.alt == Keyboard::F4)
                     gameWindow->close();
             }

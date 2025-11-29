@@ -4,47 +4,24 @@
 
 #include "SFML/System/Vector2.hpp"
 
+#include "Biomes.h"
+#include "Utility.h"
+
 namespace game
 {
-	Grid::Grid()
-	{
-	}
-	Grid::Grid(int _width, int _height, bool _useRandomSeed, std::string _seed)
-		: width(_width), height(_height), useRandomSeed(_useRandomSeed), seed(_seed)
-	{
-	}
-	Grid::Grid(const Grid& that, GameObject* _gameObject)
-		: ScriptBehaviour(that, _gameObject), width(that.width), height(that.height), useRandomSeed(that.useRandomSeed), seed(that.seed),tiles(that.tiles)
-	{
-	}
-
-	Grid::~Grid()
-	{
-	}
-
-	void Grid::Init()
+	Grid::Grid(const int _width, const int _height, const bool _useRandomSeed, const std::string& _seed)
+		: width(_width), height(_height), seed(_seed), useRandomSeed(_useRandomSeed)
 	{
 		backgroundColor = sf::Color(1, 9, 12);
 
-		tilePrefab = AssetManager::LoadAsset("Tile");
-
-		randomTerritoryPercent = 70; // Amount of Sea (Territory)
-		randomIslandPercent = 70; // Amount of Land (Island)
+		randomTerritoryPercent = 70; // Amount of Territory within the total Grid area (Sea biome by default)
+		randomIslandPercent = 70; // Amount of Land within the total Territory area
 
 		biomesFillValues.insert({ BiomeType::Desert, 3.5f });
 		biomesFillValues.insert({ BiomeType::Field, 3.5f });
 		biomesFillValues.insert({ BiomeType::Forest, 4.0f });
 		biomesFillValues.insert({ BiomeType::Mountain, 2.0f });
 		biomesFillValues.insert({ BiomeType::Lake, 2.0f });
-
-		if (camera != nullptr) {
-			camera->display->SetBackgroundColor(backgroundColor);
-		}
-	}
-
-	Grid* Grid::Clone(GameObject* _gameObject)
-	{
-		return new Grid(*this, _gameObject);
 	}
 
 	void Grid::Start()
@@ -56,7 +33,7 @@ namespace game
 	{
 	}
 
-	TileObject* Grid::GetTile(int _x, int _y)
+	Tile* Grid::GetTile(const int _x, const int _y) const
 	{
 		if (_x < 0 || _x >= width || _y < 0 || _y >= height) return nullptr;
 		return tiles[index(_x, _y)];
@@ -90,7 +67,7 @@ namespace game
 					continue;
 				}
 
-				int randomPercent = dist(mt);
+				const int randomPercent = dist(mt);
 				territoryTiles[{x, y}] = randomPercent > randomTerritoryPercent ? 0 : 1;
 			}
 		}
@@ -108,13 +85,13 @@ namespace game
 
 		std::uniform_int_distribution dist(0, 99);
 
-		preTiles = std::vector<BiomeType>((size_t)width * height);
+		preTiles = std::vector<BiomeType>(static_cast<size_t>(width) * height);
 
-		for (auto& st : territoryTiles)
+		for (auto& [pos, territory] : territoryTiles)
 		{
-			int sx = st.first.first, sy = st.first.second;
+			int sx = pos.first, sy = pos.second;
 
-			if (st.second == 0) {
+			if (territory == 0) {
 				preTiles[index(sx, sy)] = BiomeType::None;
 			}
 			else {
@@ -123,7 +100,7 @@ namespace game
 					continue;
 				}
 
-				int randomPercent = dist(mt);
+				const int randomPercent = dist(mt);
 
 				islandTiles[{sx, sy}] = randomPercent > randomIslandPercent ? 0 : 1;
 			}
@@ -135,7 +112,7 @@ namespace game
 		}
 	}
 
-	std::map<std::pair<int, int>, int> Grid::SmoothArea(std::map<std::pair<int, int>, int>& _inputArea)
+	std::map<std::pair<int, int>, int> Grid::SmoothArea(std::map<std::pair<int, int>, int>& _inputArea) const
 	{
 		std::map<std::pair<int, int>, int> outputArea = _inputArea;
 
@@ -144,7 +121,7 @@ namespace game
 			{
 				if (_inputArea.count({ x, y }))
 				{
-					int surroundingTiles = GetSurroundingTiles(x, y, _inputArea);
+					const int surroundingTiles = GetSurroundingTiles(x, y, _inputArea);
 
 					if (surroundingTiles > 4) {
 						outputArea[{x, y}] = 1;
@@ -172,7 +149,7 @@ namespace game
 				}
 			}*/
 	}
-	int Grid::GetSurroundingTiles(int _x, int _y, std::map<std::pair<int, int>, int>& _area)
+	int Grid::GetSurroundingTiles(const int _x, const int _y, std::map<std::pair<int, int>, int>& _area)
 	{
 		int landCount = 0;
 
@@ -191,18 +168,18 @@ namespace game
 	void Grid::CalculateBiomes()
 	{
 		float allBiomesValues = 0;
-		for (auto& bv : biomesFillValues) {
-			allBiomesValues += bv.second;
+		for (auto& [biomeType, fillValue] : biomesFillValues) {
+			allBiomesValues += fillValue;
 		}
-		float valuePercentage = 100.0f / allBiomesValues;
+		const float valuePercentage = 100.0f / allBiomesValues;
 
 		float previousBiomeValue = 0;
-		for (auto& bv : biomesFillValues) {
+		for (const auto& bv : biomesFillValues) {
 			if (bv.second == 0) continue;
 
 			auto bvCopy = bv;
-			bvCopy.second = (valuePercentage * bvCopy.second) + previousBiomeValue;
-			previousBiomeValue = (float)bvCopy.second;
+			bvCopy.second = valuePercentage * bvCopy.second + previousBiomeValue;
+			previousBiomeValue = bvCopy.second;
 
 			biomesFillPercent.insert(bvCopy);
 		}
@@ -216,20 +193,20 @@ namespace game
 
 		std::uniform_int_distribution dist(0, 99);
 
-		for (auto lt : islandTiles) {
+		for (auto [pos, island] : islandTiles) {
+			const int lx = pos.first;
+			const int ly = pos.second;
 
-			int lx = lt.first.first, ly = lt.first.second;
-
-			if (lt.second == 0) {
+			if (island == 0) {
 				preTiles[index(lx, ly)] = BiomeType::Sea;
 			}
 			else {
-				int randomPercent = dist(mt);
+				const int randomPercent = dist(mt);
 
-				for (auto& bPercent : biomesFillPercent) {
-					if (randomPercent < bPercent.second)
+				for (auto& [biomeType, fillPercent] : biomesFillPercent) {
+					if (randomPercent < fillPercent)
 					{
-						preTiles[index(lx, ly)] = bPercent.first;
+						preTiles[index(lx, ly)] = biomeType;
 						break;
 					}
 				}
@@ -256,9 +233,9 @@ namespace game
 			}
 		}
 	}
-	void Grid::CheckBiome(int _x, int _y)
+	void Grid::CheckBiome(const int _x, const int _y)
 	{
-		std::map<BiomeType, float> biomesStrengths;
+		std::map<BiomeType, float> biomeStrengths;
 
 		for (int nx = _x - 1; nx <= _x + 1; nx++) {
 			for (int ny = _y - 1; ny <= _y + 1; ny++)
@@ -269,16 +246,16 @@ namespace game
 						continue;
 
 					if (nx == _x && ny == _y) {
-						biomesStrengths[preTiles[index(nx, ny)]] += 2.0f;
+						biomeStrengths[preTiles[index(nx, ny)]] += 2.0f;
 					}
-					biomesStrengths[preTiles[index(nx, ny)]] += 1.0f;
+					biomeStrengths[preTiles[index(nx, ny)]] += 1.0f;
 				}
 			}
 		}
 
-		for (auto& strength : biomesStrengths) {
-			if (strength.second > biomesStrengths[preTiles[index(_x, _y)]]) {
-				preTiles[index(_x, _y)] = strength.first;
+		for (auto& [biomeType, strength] : biomeStrengths) {
+			if (strength > biomeStrengths[preTiles[index(_x, _y)]]) {
+				preTiles[index(_x, _y)] = biomeType;
 			}
 		}
 	}
@@ -294,13 +271,13 @@ namespace game
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++)
 			{
-				auto tileBiome = preTiles[index(x, y)];
+				const BiomeType tileBiome = preTiles[index(x, y)];
 				if (tileBiome != BiomeType::Sea && tileBiome != BiomeType::Lake) {
 					labels.insert({ {x, y}, 0 });
 				}
 				else {
-					auto leftTileBiome = preTiles[index(x - 1, y)];
-					auto aboveTileBiome = preTiles[index(x, y - 1)];
+					const BiomeType leftTileBiome = preTiles[index(x - 1, y)];
+					const BiomeType aboveTileBiome = preTiles[index(x, y - 1)];
 
 					int leftLabel = labels[{x - 1, y}];
 					int aboveLabel = labels[{x, y - 1}];
@@ -336,7 +313,7 @@ namespace game
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++)
 			{
-				auto& label = labels[{x, y}];
+				int label = labels[{x, y}];
 				if (label != 0) {
 					while (label != equivalencies[label]) {
 						label = equivalencies[label];
@@ -348,7 +325,7 @@ namespace game
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++)
 			{
-				auto& label = labels[{x, y}];
+				const int label = labels[{x, y}];
 				if (label == 1) {
 					preTiles[index(x, y)] = BiomeType::Sea;
 				}
@@ -369,36 +346,14 @@ namespace game
 		}
 	}
 
-	void Grid::CreateTile(int _x, int _y, BiomeType _b)
+	void Grid::CreateTile(int _x, int _y, const BiomeType _biomeType)
 	{
-		GameObject* tGo = AssetManager::InstantiateAsset(*tilePrefab, gameObject, sf::Vector2f((float)_x, (float)_y));
-		TileObject* tObject = tGo->GetComponent<TileObject>();
+		const std::string spriteName = GetRandomElementFrom(biomeSprites.at(_biomeType));
+		const std::string spritePath = GetSpritePath(spriteName);
 
-		tObject->tile->x = _x;
-		tObject->tile->y = _y;
+		Tile* tile = new Tile(spritePath, {_x, _y}, _biomeType);
+		// TODO / Create the resource inside GameScene
 
-		tObject->tile->biomeType = _b;
-		switch (tObject->tile->biomeType) {
-			case BiomeType::None: break;
-			case BiomeType::Forest: tObject->tile->setBiome(new ForestBiome()); break;
-			case BiomeType::Field: tObject->tile->setBiome(new FieldBiome()); break;
-			case BiomeType::Desert: tObject->tile->setBiome(new DesertBiome()); break;
-			case BiomeType::Mountain: tObject->tile->setBiome(new MountainBiome()); break;
-			case BiomeType::Sea: tObject->tile->setBiome(new SeaBiome()); break;
-			case BiomeType::Lake: tObject->tile->setBiome(new LakeBiome()); break;
-			default: break;
-		}
-
-		if (_b == BiomeType::None) {
-			std::string biomeSprite = "Tile None";
-			tGo->GetComponent<SpriteRenderer>()->SetSprite(Utility::spritePath(biomeSprite));
-			std::string indexName = " (" + std::to_string(_x) + "," + std::to_string(_y) + ")";
-			tGo->name = biomeSprite + indexName;
-		}
-		else {
-			tObject->SetupTile(_x, _y);
-		}
-
-		tiles.push_back(tObject);
+		tiles.push_back(tile);
 	}
 }

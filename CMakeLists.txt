@@ -17,14 +17,9 @@ add_executable(main src/main.cpp
         src/Enums.h
         src/Grid.h
         src/Grid.cpp
-        src/Biome.h
-        src/Biome.cpp
         src/Biomes.h
-        src/Biomes.cpp
         src/Tile.h
         src/Tile.cpp
-        src/TileObject.h
-        src/TileObject.cpp
         src/AI/AgentState.h
         src/AI/Agent.cpp
         src/AI/Agent.h
@@ -52,7 +47,9 @@ add_executable(main src/main.cpp
         src/GameScene.h
         src/GameScene.cpp
         src/GameDisplay.cpp
-        src/GameDisplay.cpp)
+        src/GameDisplay.cpp
+        src/Utility.h
+        src/Utility.h)
 
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)

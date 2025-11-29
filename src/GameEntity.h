@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef GAME_OBJECT_H
-#define GAME_OBJECT_H
+#ifndef GAME_ENTITY_H
+#define GAME_ENTITY_H
 
 #include <string>
 
@@ -27,11 +27,14 @@ namespace core
 		bool IsActive() const;
 
 		sf::Transformable* GetTransform() { return &transform; }
+
 		std::string GetName() { return name; }
+		void SetName(const std::string& _name) { name = _name; }
+
 		Layer GetLayer() const { return layer; }
 
 		int GetIndex() const { return index; }
-		void SetIndex(const int value) { index = value; }
+		void SetIndex(const int _value) { index = _value; }
 
 	private:
 		sf::Transformable transform;
@@ -45,4 +48,4 @@ namespace core
 	};
 }
 
-#endif // !GAME_OBJECT_H
+#endif // !GAME_ENTITY_H

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef GAME_SCENE_H
+#define GAME_SCENE_H
 
 #include <vector>
 
@@ -39,4 +39,4 @@ namespace core
 	};
 }
 
-#endif // !SCENE_H
+#endif // !GAME_SCENE_H

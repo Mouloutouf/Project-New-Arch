@@ -3,73 +3,21 @@
 #ifndef BIOMES_H
 #define BIOMES_H
 
-#include "Alpha.h"
-
 #include <map>
 #include <string>
 #include <vector>
 
-#include "Biome.h"
-
 namespace game
 {
-	class FieldBiome : public Biome
+	const std::map<BiomeType, std::vector<std::string>> biomeSprites =
 	{
-	public:
-		FieldBiome();
-		FieldBiome(int _cropResources, int _herbResources, Structure _shipStructure);
-
-		void GenerateFieldBiome();
-	};
-
-	class DesertBiome : public Biome
-	{
-	public:
-		DesertBiome();
-		DesertBiome(Structure _shipStructure);
-
-		void GenerateDesertBiome();
-	};
-
-	class MountainBiome : public Biome
-	{
-	public:
-		MountainBiome();
-		MountainBiome(int _oxygenResources, Structure _shipStructure);
-
-		void GenerateMountainBiome();
-	};
-
-	class LakeBiome : public Biome
-	{
-	public:
-		LakeBiome();
-		LakeBiome(int _waterResources);
-
-		void GenerateLakeBiome();
-	};
-
-	class ForestBiome : public Biome
-	{
-	public:
-		ForestBiome();
-		ForestBiome(int _oxygenResources, int _meatResources, int _herbResources, Structure _shipStructure);
-
-		void GenerateForestBiome();
-		void GenerateForestResources();
-
-	private:
-		std::string forestType;
-		std::map<std::string, std::vector<std::string>> forestSprites;
-	};
-
-	class SeaBiome : public Biome
-	{
-	public:
-		SeaBiome();
-		SeaBiome(int _waterResources);
-
-		void GenerateSeaBiome();
+		{ BiomeType::None, { "Tile None" } },
+		{ BiomeType::Field, { "Tile Field 1", "Tile Field 2", "Tile Field 3", "Tile Field 4" } },
+		{ BiomeType::Desert, { "Tile Desert 1", "Tile Desert 2", "Tile Desert 3" } },
+		{ BiomeType::Mountain, { "Tile Mountain 1", "Tile Mountain 2", "Tile Mountain 3" } },
+		{ BiomeType::Forest, { "Tile Forest 1 AA", "Tile Forest 2 AA", "Tile Forest 3 AA", "Tile Forest 4 AA" } },
+		{ BiomeType::Lake, { "Tile Lake Center 1", "Tile Lake Center 2" } },
+		{ BiomeType::Sea, { "Tile Sea 1", "Tile Sea 2", "Tile Sea 3" } },
 	};
 }
 
