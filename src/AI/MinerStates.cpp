@@ -8,6 +8,7 @@
 
 #include "AgentNames.h"
 #include "Miner.h"
+#include "Utility.h"
 #include "Messaging/MessageDispatcher.h"
 #include "Messaging/Messages.h"
 
@@ -153,7 +154,7 @@ bool GoBackToBaseAndSleep::OnNotification(Miner* pMiner, const Telegram& message
     switch (message.messageType)
     {
     case Msg_FoodReady:
-        std::cout << "\n" << "Message handled by " << pMiner->Name() << " at time : " << Clock->GetCurrentTime();
+        std::cout << "\n" << "Message handled by " << pMiner->Name() << " at time : " << CURRENT_TIME;
         std::cout << "\n" << pMiner->Name() << " : Roger that, coming to eat";
 
         pMiner->GetStateMachine()->ChangeState(GoBackToBaseAndEat::Instance());

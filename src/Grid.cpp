@@ -5,6 +5,7 @@
 #include "SFML/System/Vector2.hpp"
 
 #include "Biomes.h"
+#include "Random.h"
 #include "Utility.h"
 
 namespace game
@@ -348,7 +349,7 @@ namespace game
 
 	void Grid::CreateTile(int _x, int _y, const BiomeType _biomeType)
 	{
-		const std::string spriteName = GetRandomElementFrom(biomeSprites.at(_biomeType));
+		const std::string spriteName = GetRandomElement(biomeSprites.at(_biomeType));
 		const std::string spritePath = GetSpritePath(spriteName);
 
 		Tile* tile = new Tile(spritePath, {_x, _y}, _biomeType);

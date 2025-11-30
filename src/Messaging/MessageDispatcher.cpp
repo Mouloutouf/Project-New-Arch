@@ -7,6 +7,7 @@
 
 #include <iostream>
 
+#include "Utility.h"
 #include "AI/AgentManager.h"
 
 MessageDispatcher* MessageDispatcher::Instance()
@@ -40,7 +41,7 @@ void MessageDispatcher::DispatchMessage(double delay, std::string sender, std::s
     // if there is no delay, route telegram immediately
     if (delay <= 0.0)
     {
-        std::cout << "\n" << "Telegram dispatched at time: " << Clock->GetCurrentTime()
+        std::cout << "\n" << "Telegram dispatched at time: " << CURRENT_TIME
             << " by " << sender << " for " << receiver << ". Message is " << message << "";
 
         Discharge(pReceiver, telegram);
@@ -48,7 +49,7 @@ void MessageDispatcher::DispatchMessage(double delay, std::string sender, std::s
     // else calculate the time when the telegram should be dispatched and add it to the queue
     else
     {
-        double currentTime = Clock->GetCurrentTime();
+        const double currentTime = CURRENT_TIME;
 
         telegram.dispatchTime = currentTime + delay;
 
@@ -61,7 +62,7 @@ void MessageDispatcher::DispatchMessage(double delay, std::string sender, std::s
 
 void MessageDispatcher::DispatchDelayedMessages()
 {
-    double currentTime = Clock->GetCurrentTime();
+    const double currentTime = CURRENT_TIME;
 
     //now peek at the queue to see if any telegrams need dispatching.
     //remove all telegrams from the front of the queue that have gone

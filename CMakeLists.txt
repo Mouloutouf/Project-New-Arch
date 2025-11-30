@@ -49,7 +49,17 @@ add_executable(main src/main.cpp
         src/GameDisplay.cpp
         src/GameDisplay.cpp
         src/Utility.h
-        src/Utility.h)
+        src/Utility.h
+        src/SpriteObject.cpp
+        src/SpriteObject.h
+        src/SpriteObject.h
+        src/SpriteObject.cpp
+        src/Layers.h
+        src/Layers.h
+        src/Colors.h
+        src/Colors.h
+        src/Random.h
+        src/Random.h)
 
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)

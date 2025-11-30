@@ -10,24 +10,23 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/VideoMode.hpp"
 
+#include "Colors.h"
 #include "GameEntity.h"
+#include "SpriteObject.h"
 
 namespace core
 {
 	class DisplayedObject
 	{
 	public:
-		DisplayedObject(GameEntity* _gameObject, RenderObject* _renderObject, Camera* _cam, sf::Vector2f _origin);
+		DisplayedObject(GameEntity* _gameObject, SpriteObject* _renderObject, Camera* _cam, sf::Vector2f _origin);
 		~DisplayedObject();
 
 		void CalculateDraw();
-		void CalculateUIDraw();
 
 		GameEntity* gameObjectToRender;
 
-		RenderObject* objectToRender = nullptr;
-		bool isUI;
-		bool isText;
+		SpriteObject* objectToRender = nullptr;
 
 		int ppu;
 		Camera* cam;
@@ -46,14 +45,14 @@ namespace core
 		GameDisplay(sf::VideoMode _videoMode, const std::string& _name);
 		~GameDisplay();
 
-		void AddObjectToRender(GameEntity* _gameObject, RenderObject* _renderObject);
-		void RemoveObjectToRender(RenderObject* _renderObject);
+		void AddObjectToRender(GameEntity* _gameObject, SpriteObject* _renderObject);
+		void RemoveObjectToRender(const SpriteObject* _renderObject);
 
 		void Clear();
 		void Render();
 
 		void Draw(const sf::Drawable* _drawable);
-		void DebugDraw(DisplayedObject* _d);
+		void DebugDraw(const DisplayedObject* _d);
 		void DrawBackground();
 		void DrawGrid();
 
@@ -77,7 +76,7 @@ namespace core
 
 		int FindKeyPosition(int _newKey) const;
 
-		std::pair<int, int> ContainsObjectToRender(RenderObject* _renderObject);
+		std::pair<int, int> ContainsObjectToRender(const SpriteObject* _renderObject);
 
 		sf::Vector2f worldOrigin() {
 			sf::Vector2f origin = -camera->gameObject->transform->position();

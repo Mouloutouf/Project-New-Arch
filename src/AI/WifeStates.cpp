@@ -7,6 +7,8 @@
 #include <iostream>
 
 #include "AgentNames.h"
+#include "Random.h"
+#include "Utility.h"
 #include "Wife.h"
 #include "Messaging/MessageDispatcher.h"
 #include "Messaging/Messages.h"
@@ -29,7 +31,7 @@ void WifeGlobalState::Execute(Wife* wife)
 {
     // Randomly go inspect the storage (1 chance out of 10)
     bool isInsideStorage = wife->GetStateMachine()->IsInState(*InspectStorage::Instance());
-    if (RandFloat() < 0.1 && isInsideStorage == false)
+    if (GetRandomFloat(0, 1) < 0.1 && isInsideStorage == false)
         wife->GetStateMachine()->ChangeState(InspectStorage::Instance());
 }
 
@@ -42,7 +44,7 @@ bool WifeGlobalState::OnNotification(Wife* wife, const Telegram& msg)
     switch (msg.messageType)
     {
     case Msg_BackToBase:
-        std::cout << "\n" << "Message handled by " << wife->Name() << " at time : " << Clock->GetCurrentTime();
+        std::cout << "\n" << "Message handled by " << wife->Name() << " at time : " << CURRENT_TIME;
         std::cout << "\n" << wife->Name() << " : You're back early. Going to prepare food...";
 
         wife->GetStateMachine()->ChangeState(PrepareFood::Instance());
@@ -71,7 +73,7 @@ void ManageBase::Enter(Wife* wife)
 
 void ManageBase::Execute(Wife* wife)
 {
-    switch (RandInt(0, 2))
+    switch (GetRandomInt(0, 2))
     {
     case 0:
         std::cout << "\n" << wife->Name() << " : Planting seeds";
@@ -172,7 +174,7 @@ bool PrepareFood::OnNotification(Wife* wife, const Telegram& msg)
     switch (msg.messageType)
     {
     case Msg_FoodReady:
-        std::cout << "\n" << "Message received by " << wife->Name() << " at time : " << Clock->GetCurrentTime();
+        std::cout << "\n" << "Message received by " << wife->Name() << " at time : " << CURRENT_TIME;
         std::cout << "\n" << wife->Name() << " : Here, take some food";
 
         MessageDispatcher::Instance()
